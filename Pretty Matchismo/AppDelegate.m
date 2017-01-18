@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "CardGameViewController.h"
+#import "GameResultViewController.h"
 
 @interface AppDelegate ()
 
@@ -15,8 +17,24 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    self.tbc = [[UITabBarController alloc] initWithNibName:nil bundle:nil];
+    
+    CardGameViewController *cgvc = [[CardGameViewController alloc] initWithNibName:nil bundle:nil];
+    cgvc.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemRecents tag:0];
+    
+    GameResultViewController *grvc = [[GameResultViewController alloc] initWithNibName:nil bundle:nil];
+    grvc.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemRecents tag:1];
+    
+    self.window.rootViewController = self.tbc;
+    self.tbc.viewControllers = @[cgvc,grvc];
+    [self.window makeKeyAndVisible];
+    
+    
     return YES;
 }
 
