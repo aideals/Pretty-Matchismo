@@ -15,7 +15,6 @@
 @implementation PlayingCardView
 
 #pragma mark - Properties
-
 @synthesize faceCardScaleFactor = _faceCardScaleFactor;
 
 #define DEFAULT_FACE_CARD_SCALE_FACTOR 0.90
@@ -52,7 +51,7 @@
 
 - (NSString *)rankAsString
 {
-    return @[@"?",@"A",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"J",@"Q",@"K"][self.rank];
+    return @[@"0",@"A",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"J",@"Q",@"K"][self.rank];
 }
 
 #pragma mark - Drawing
@@ -108,7 +107,7 @@
     [self pushContextAndRotateUpsideDown];
     [cornerText drawInRect:textBounds];
     [self popContext];
-}
+}	
 
 - (void)pushContextAndRotateUpsideDown
 {
@@ -183,7 +182,7 @@
                                     middle.x-pipSize.width/2.0-hoffset*self.bounds.size.width,
                                     middle.y-pipSize.height/2.0-voffset*self.bounds.size.height
                                     );
-    [attributedSuit drawAtPoint:pipOrigin];
+        [attributedSuit drawAtPoint:pipOrigin];
     if (hoffset) {
         pipOrigin.x += hoffset*2.0*self.bounds.size.width;
         [attributedSuit drawAtPoint:pipOrigin];
