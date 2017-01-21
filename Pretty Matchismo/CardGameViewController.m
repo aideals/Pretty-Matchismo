@@ -9,8 +9,9 @@
 #import "CardGameViewController.h"
 #import "CardMatchingGame.h"
 #import "GameResult.h"
+#import "PlayingCardGameCell.h"
 
-@interface CardGameViewController () <UICollectionViewDataSource>
+@interface CardGameViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (nonatomic, strong) UILabel *scoreLabel;
 @property (nonatomic, strong) UILabel *flipsLabel;
 @property (nonatomic, strong) NSMutableArray *cardButtons;
@@ -18,6 +19,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UIButton *dell;
 @property (nonatomic, strong) GameResult *gameResult;
+@property (nonatomic, strong) PlayingCardGameCell *playingCardGameCell;
 @end
 
 @implementation CardGameViewController
@@ -50,12 +52,12 @@
     [super viewDidLoad];
     [self updateUI];
     
-    self.scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 600, 85, 75)];
+    self.scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 550, 85, 75)];
     self.scoreLabel.textColor = [UIColor blackColor];
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d",self.game.score];
     [self.view addSubview:self.scoreLabel];
    
-    self.flipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(295, 600, 85, 75)];
+    self.flipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(295, 550, 85, 75)];
     self.flipsLabel.textColor = [UIColor blackColor];
     self.flipsLabel.text = [NSString stringWithFormat:@"Flips: %d",self.flipCount];
     [self.view addSubview:self.flipsLabel];
@@ -67,13 +69,20 @@
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumInteritemSpacing = 0;
     layout.minimumLineSpacing = 5;
-    
+    [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 25, self.view.bounds.size.width, 500) collectionViewLayout:layout];
     self.collectionView.backgroundColor = [UIColor greenColor];
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    [self.collectionView registerClass:[PlayingCardGameCell class] forCellWithReuseIdentifier:@"PlayingCard"];
+    [self.collectionView registerClass:[PlayingCardGameCell class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                         withReuseIdentifier:@"PlayingCard"];
+    
+    
     [self.view addSubview:self.collectionView];
     
-    self.dell = [[UIButton alloc] initWithFrame:CGRectMake(155, 535, 55, 45)];
+    self.dell = [[UIButton alloc] initWithFrame:CGRectMake(155, 550, 55, 45)];
     self.dell.backgroundColor = [UIColor blackColor];
     [self.dell setTitle:@"Dell" forState:UIControlStateNormal];
     [self.dell addTarget:self action:@selector(dell:) forControlEvents:UIControlEventTouchDown];

@@ -13,7 +13,8 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    frame = CGRectMake(20, 20, 45, 65);
+    self.playingCardView.frame = CGRectMake(0, 0, 40, 55);
+    [self addSubview:self.playingCardView];
     return self;
 }
 
