@@ -55,7 +55,7 @@
     [formatter setTimeStyle:NSDateFormatterShortStyle];
     
     for (GameResult *result in [[GameResult allGameResults] sortedArrayUsingSelector:self.sortSelector]) {
-        display = [display stringByAppendingString:@"Score: %d (%@, %0g)\n",result.score,[formatter stringFromDate:result.end],round(*(result.duration))];
+        display = [display stringByAppendingString:@"Score: %d (%@, %0g)\n", result.score, [formatter stringFromDate:result.end], round(result.duration)];
     }
     
     self.displayText.text = display;

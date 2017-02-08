@@ -12,7 +12,7 @@
 @property (readonly, nonatomic) NSDate *start;
 @property (readonly, nonatomic) NSDate *end;
 @property (nonatomic) int score;
-@property (nonatomic) NSTimeInterval *duration;
+@property (nonatomic) NSTimeInterval duration;
 
 + (NSArray *)allGameResults;
 

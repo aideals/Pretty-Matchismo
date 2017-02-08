@@ -54,23 +54,67 @@
     return @{START_KEY : self.start, END_KEY : self.end, SCORE_KEY : @(self.score)};
 }
 
-
-
-
-
+- (void)synchronize
+{
+    NSMutableDictionary *mutableGameResultsFromUserDefault = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:ALL_GARM_RESULTS_KEY] mutableCopy];
+    if (!mutableGameResultsFromUserDefault) mutableGameResultsFromUserDefault = [[NSMutableDictionary alloc] init];
+    mutableGameResultsFromUserDefault[[self.start description]] = [self PropertyList];
+    [[NSUserDefaults standardUserDefaults] setObject:mutableGameResultsFromUserDefault forKey:ALL_GARM_RESULTS_KEY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        self.end = [NSDate date];
-        
+        self.start = [NSDate date];
+        self.end = self.start;
     }
     return self;
 }
 
+- (NSTimeInterval)duration
+{
+    return [self.end timeIntervalSinceDate:self.start];
+}
 
+- (void)setScore:(int)score
+{
+    _score = score;
+    self.end = [NSDate date];
+    [self synchronize];
+}
 
+- (NSComparisonResult)compareScoreToGameResult:(GameResult *)otherResult
+{
+    if (self.score > otherResult.score) {
+        return NSOrderedAscending;
+    }
+    else if (self.score < otherResult.score) {
+        return NSOrderedDescending;
+    }
+    else {
+        return NSOrderedSame;
+    }
+}
+
+- (NSComparisonResult)compareToEndDateToGameResult:(GameResult *)otherResult
+{
+    return [self.end compare:otherResult.end];
+}
+
+- (NSComparisonResult)compareDurationToGameResult:(GameResult *)otherResult
+{
+    if (self.duration > otherResult.duration) {
+        return NSOrderedDescending;
+    }
+    else if (self.duration < otherResult.duration) {
+        return NSOrderedAscending;
+    }
+    else {
+        return NSOrderedSame;
+    }
+}
 
 
 @end
